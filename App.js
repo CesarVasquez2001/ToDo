@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import Navigation from "./Navigation";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as SQLite from "expo-sqlite";
+
+const db = SQLite.openDatabase("todo.db");
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const createTable = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority INTEGER, dueDate TEXT, description TEXT);",
+        [],
+        () => console.log("Table created successfully"),
+        (error) => console.error("Error creating table", error)
+      );
+    });
+  };
+
+  // Crea la tabla al iniciar la aplicación
+  React.useEffect(() => {
+    createTable();
+  }, []);
+
+  return <Navigation />;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// Resto del código sin cambios
