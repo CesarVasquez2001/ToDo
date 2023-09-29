@@ -16,6 +16,8 @@ export default function EditTask({ route, navigation }) {
   useEffect(() => {
     const { task } = route.params;
     setTaskDetails(task);
+    navigation.setOptions({ title: task.name }); // Cambia el título
+    // Resto del código...
   }, [route.params]);
 
   const handleEditTask = () => {
