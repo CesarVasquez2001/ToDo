@@ -4,7 +4,7 @@ import Button from "../../components/default/Button";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("todo.db");
+const db = SQLite.openDatabase("todo.db", 1);
 
 export default function AddTask({ navigation }) {
   const [date, setDate] = useState(null);
@@ -18,7 +18,6 @@ export default function AddTask({ navigation }) {
   });
 
   useEffect(() => {
-    // Esta función se ejecuta cuando el componente se monta
     setTaskDetails({
       name: "",
       priority: "",
@@ -26,7 +25,8 @@ export default function AddTask({ navigation }) {
       description: "",
     });
     setDate(null);
-  }, []); // El arreglo de dependencias está vacío, por lo que este useEffect solo se ejecuta cuando el componente se monta.
+    
+  }, []);
 
   const handleDateChange = (event, selectedDate) => {
     if (event.type === "dismissed") {
@@ -76,7 +76,7 @@ export default function AddTask({ navigation }) {
             taskDetails.dueDate,
             taskDetails.description,
           ],
-          (_, result) => {
+          (_, results) => {
             console.log("Task added successfully");
             tx.executeSql("SELECT * FROM tasks", [], (_, resultSet) => {
               const rows = resultSet.rows;
@@ -100,7 +100,7 @@ export default function AddTask({ navigation }) {
               },
             ]);
           },
-          (error) => {
+          (_, error) => {
             console.error("Error inserting task", error);
             Alert.alert("Error", "An error occurred while adding the task");
           }
@@ -200,3 +200,4 @@ const styles = {
     fontSize: 16,
   },
 };
+

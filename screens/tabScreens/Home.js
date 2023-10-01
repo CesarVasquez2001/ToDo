@@ -12,7 +12,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("todo.db");
+const db = SQLite.openDatabase("todo.db",1);
 
 const Home = () => {
   const isFocused = useIsFocused();

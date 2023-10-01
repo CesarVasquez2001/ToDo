@@ -3,7 +3,7 @@ import { View, Text, TextInput, Alert, ScrollView } from "react-native";
 import Button from "../../components/default/Button";
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("todo.db");
+const db = SQLite.openDatabase("todo.db",1);
 
 export default function EditTask({ route, navigation }) {
   const [taskDetails, setTaskDetails] = useState({
@@ -60,7 +60,7 @@ export default function EditTask({ route, navigation }) {
               },
             ]);
           },
-          (error) => {
+          (_, error) => {
             console.error("Error editing task", error);
             Alert.alert("Error", "An error occurred while editing the task");
           }
